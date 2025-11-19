@@ -27,6 +27,7 @@ import {
   Popover,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { decryptStoredWallet } from "./utils/decryptWallet";
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
@@ -141,6 +142,7 @@ import { GeneralNotifications } from "./components/GeneralNotifications";
 import { PdfViewer } from "./common/PdfViewer";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import { DownloadWallet } from "./components/Auth/DownloadWallet";
+import { useThemeContext } from "./context/ThemeContext";
 
 
 type extStates =
@@ -303,6 +305,8 @@ export const isMainWindow = window?.location?.href?.includes("?main=true");
 function App() {
   const [extState, setExtstate] = useState<extStates>("not-authenticated");
   const [desktopViewMode, setDesktopViewMode] = useState('home')
+  const { themeMode } = useThemeContext();
+  const primaryLogo = themeMode === "dark" ? Logo1Dark : Logo1;
 
   const [backupjson, setBackupjson] = useState<any>(null);
   const [rawWallet, setRawWallet] = useState<any>(null);
@@ -340,6 +344,7 @@ function App() {
     walletToBeDownloadedPasswordConfirm,
     setWalletToBeDownloadedPasswordConfirm,
   ] = useState<string>("");
+  const theme = useTheme();
   const [walletToBeDownloadedError, setWalletToBeDownloadedError] =
     useState<string>("");
   const [walletToBeDecryptedError, setWalletToBeDecryptedError] =
@@ -1618,12 +1623,28 @@ function App() {
   }
 
   const renderProfile = () => {
+    const tooltipSlotProps = {
+      tooltip: {
+        sx: {
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.paper,
+          border: `1px solid ${theme.palette.divider}`,
+          fontSize: "12px",
+          fontWeight: 600,
+        },
+      },
+      arrow: {
+        sx: {
+          color: theme.palette.background.paper,
+        },
+      },
+    };
     return (
       <AuthenticatedContainer
         sx={{
           width: isMobile ? "100vw" : "auto",
           display: "flex",
-          backgroundColor: "var(--bg-2)",
+          backgroundColor: theme.palette.background.default,
           justifyContent: "flex-end",
         }}
       >
@@ -1641,7 +1662,7 @@ function App() {
               }}
               sx={{
                 cursor: "pointer",
-                color: "white",
+                color: theme.palette.text.primary,
               }}
             />
           </Box>
@@ -1674,23 +1695,14 @@ function App() {
               <>
                 <Spacer height="20px" />
                 <Tooltip
-                  title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>LOG OUT</span>} 
+                  title={
+                    <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>
+                      LOG OUT
+                    </Typography>
+                  }
                   placement="left"
                   arrow
-                  sx={{ fontSize: "24" }}
-                  slotProps={{
-                    tooltip: {
-                      sx: {
-                        color: "#ffffff",
-                        backgroundColor: "#444444",
-                      },
-                    },
-                    arrow: {
-                      sx: {
-                        color: "#444444",
-                      },
-                    },
-                  }}
+                  slotProps={tooltipSlotProps}
                 >
                   <img
                     src={Logout}
@@ -1715,27 +1727,18 @@ function App() {
               }}
             >
               <Tooltip
-                title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>SETTINGS</span>} 
+                title={
+                  <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>
+                    SETTINGS
+                  </Typography>
+                }
                 placement="left"
                 arrow
-                sx={{ fontSize: "24" }}
-                slotProps={{
-                  tooltip: {
-                    sx: {
-                      color: "#ffffff",
-                      backgroundColor: "#444444",
-                    },
-                  },
-                  arrow: {
-                    sx: {
-                      color: "#444444",
-                    },
-                  },
-                }}
+                slotProps={tooltipSlotProps}
               >
                 <SettingsIcon
                   sx={{
-                    color: "rgba(255, 255, 255, 0.5)",
+                    color: theme.palette.text.secondary,
                   }}
                 />
               </Tooltip>
@@ -1747,27 +1750,18 @@ function App() {
               }}
             >
               <Tooltip
-                title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>USER LOOKUP</span>} 
+                title={
+                  <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>
+                    USER LOOKUP
+                  </Typography>
+                }
                 placement="left"
                 arrow
-                sx={{ fontSize: "24" }}
-                slotProps={{
-                  tooltip: {
-                    sx: {
-                      color: "#ffffff",
-                      backgroundColor: "#444444",
-                    },
-                  },
-                  arrow: {
-                    sx: {
-                      color: "#444444",
-                    },
-                  },
-                }}
+                slotProps={tooltipSlotProps}
               >
                 <PersonSearchIcon
                   sx={{
-                    color: "rgba(255, 255, 255, 0.5)",
+                    color: theme.palette.text.secondary,
                   }}
                 />
               </Tooltip>
@@ -1779,27 +1773,18 @@ function App() {
               }}
             >
               <Tooltip
-                title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>WALLETS</span>} 
+                title={
+                  <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>
+                    WALLETS
+                  </Typography>
+                }
                 placement="left"
                 arrow
-                sx={{ fontSize: "24" }}
-                slotProps={{
-                  tooltip: {
-                    sx: {
-                      color: "#ffffff",
-                      backgroundColor: "#444444",
-                    },
-                  },
-                  arrow: {
-                    sx: {
-                      color: "#444444",
-                    },
-                  },
-                }}
+                slotProps={tooltipSlotProps}
               >
                 <AccountBalanceWalletIcon
                   sx={{
-                    color: "rgba(255, 255, 255, 0.5)",
+                    color: theme.palette.text.secondary,
                   }}
                 />
               </Tooltip>
@@ -1810,29 +1795,20 @@ function App() {
                 <Spacer height="20px" />
              
                <Tooltip
-               title={<span style={{ color: "white", fontSize: "14px", fontWeight: 700 }}>YOUR ACCOUNT</span>} 
-               placement="left"
-               arrow
-               sx={{ fontSize: "24" }}
-               slotProps={{
-                 tooltip: {
-                   sx: {
-                     color: "#ffffff",
-                     backgroundColor: "#444444",
-                   },
-                 },
-                 arrow: {
-                   sx: {
-                     color: "#444444",
-                   },
-                 },
-               }}
-             >
+                 title={
+                   <Typography sx={{ fontSize: "12px", fontWeight: 600 }}>
+                     YOUR ACCOUNT
+                   </Typography>
+                 }
+                 placement="left"
+                 arrow
+                 slotProps={tooltipSlotProps}
+               >
                 <ButtonBase onClick={() => {
                   setIsOpenDrawerProfile(true);
                 }}>
 
-              <WalletIcon width={25} color="rgba(250, 250, 250, 0.5)" />
+              <WalletIcon width={25} color={theme.palette.text.secondary} />
 
               </ButtonBase>
               </Tooltip>
@@ -2568,7 +2544,7 @@ function App() {
               height: "154px",
             }}
           >
-          <img src={Logo1Dark} className="base-image" />
+          <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="38px" />
           <TextP
@@ -2630,7 +2606,7 @@ function App() {
               height: "154px",
             }}
           >
-            <img src={Logo1Dark} className="base-image" />
+            <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="38px" />
           <TextP
@@ -2730,7 +2706,7 @@ function App() {
               height: "154px",
             }}
           >
-           <img src={Logo1Dark} className="base-image" />
+           <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="35px" />
           <Box
@@ -2856,7 +2832,7 @@ function App() {
                   height: "154px",
                 }}
               >
-              <img src={Logo1Dark} className="base-image" />
+              <img src={primaryLogo} className="base-image" />
               </div>
               <Spacer height="38px" />
               <TextP

@@ -4,6 +4,7 @@ import {
   BottomNavigationAction,
   ButtonBase,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Home, Groups, Message, ShowChart } from "@mui/icons-material";
 import Box from "@mui/material/Box";
@@ -19,6 +20,7 @@ import { HomeIcon } from "../../assets/Icons/HomeIcon";
 import { Save } from "../Save/Save";
 
 export const IconWrapper = ({ children, label, color, selected, disableWidth, customWidth }) => {
+  const theme = useTheme();
   return (
     <Box
       sx={{
@@ -30,7 +32,7 @@ export const IconWrapper = ({ children, label, color, selected, disableWidth, cu
         height: customWidth ? customWidth : disableWidth ? 'auto' :  "89px",
         width: customWidth? customWidth : disableWidth ? 'auto' : "89px",
         borderRadius: "50%",
-        backgroundColor: selected ? "rgba(28, 29, 32, 1)" : "transparent",
+        backgroundColor: selected ? theme.palette.action.selected : "transparent",
       }}
     >
       {children}
@@ -39,7 +41,7 @@ export const IconWrapper = ({ children, label, color, selected, disableWidth, cu
           fontFamily: "Inter",
           fontSize: "12px",
           fontWeight: 500,
-          color: color,
+          color: color || theme.palette.text.primary,
         }}
       >
         {label}
@@ -109,13 +111,13 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Home"
             selected={isHome}
           >
             <HomeIcon
               height={30}
-              color={isHome ? "white" : "rgba(250, 250, 250, 0.5)"}
+              color={isHome ? "var(--text-contrast)" : "var(--text-contrast-muted)"}
             />
           </IconWrapper>
         </ButtonBase>
@@ -127,7 +129,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Apps"
             selected={isApps}
           >
@@ -140,7 +142,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Groups"
             selected={isGroups}
           >
@@ -150,8 +152,8 @@ export const DesktopFooter = ({
                 hasUnreadGroups
                   ? "var(--unread)"
                   : isGroups
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? "var(--text-contrast)"
+                  : "var(--text-contrast-muted)"
               }
             />
           </IconWrapper>
@@ -162,7 +164,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color="var(--text-contrast-muted)"
             label="Messaging"
             selected={isDirects}
           >
@@ -172,8 +174,8 @@ export const DesktopFooter = ({
                 hasUnreadDirects
                   ? "var(--unread)"
                   : isDirects
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? "var(--text-contrast)"
+                  : "var(--text-contrast-muted)"
               }
             />
           </IconWrapper>
